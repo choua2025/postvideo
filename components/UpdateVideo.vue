@@ -58,7 +58,7 @@
                 </v-img>
                 <v-img
                   v-else
-                  :src="`https://apicenter.laotel.com:9443/tplussocial?img=${localFormUpdate.image}`"
+                  :src="`${$config.mediaUrl}?img=${localFormUpdate.image}`"
                   class="text-right"
                   style="
                     width: 245px;
@@ -113,7 +113,7 @@
                 </v-img>
                 <v-img
                   v-else
-                  :src="`https://apicenter.laotel.com:9443/tplussocial?img=${localFormUpdate.bkimage}`"
+                  :src="`${$config.mediaUrl}?img=${localFormUpdate.bkimage}`"
                   class="text-right"
                   style="
                     width: 245px;
@@ -204,7 +204,7 @@
                 </v-img>
                 <v-img
                   v-else
-                  :src="`https://apicenter.laotel.com:9443/tplussocial?img=${item.name}`"
+                  :src="`${$config.mediaUrl}?img=${item.name}`"
                   class="text-right"
                   style="
                     border: 1px solid rgb(166, 166, 166);
@@ -472,7 +472,7 @@
                     :src="
                       itemType.imageVideo && itemType.imageVideo !== null
                         ? playURL(itemType.image)
-                        : `https://apicenter.laotel.com:9443/tplussocial?img=${itemType.img}`
+                        : `${$config.mediaUrl}?img=${itemType.img}`
                     "
                     class="text-right"
                     style="
@@ -532,7 +532,7 @@
                             :src="
                               item.video && item.video !== null
                                 ? playURL(item.video)
-                                : `https://apicenter.laotel.com:9443/tplussocial/VideoStreaming?v=${item.filename}`
+                                : `${$config.mediaUrl}/VideoStreaming?v=${item.filename}`
                             "
                             controls
                             height="130"
@@ -614,7 +614,7 @@
                           :src="
                             item.imageVideo && item.imageVideo !== null
                               ? playURL(item.imageVideo)
-                              : `https://apicenter.laotel.com:9443/tplussocial?img=${item.thumbnail}`
+                              : `${$config.mediaUrl}?img=${item.thumbnail}`
                           "
                           class="text-right"
                           style="
@@ -686,7 +686,7 @@
                       :src="
                         itemType.video && itemType.video !== null
                           ? playURL(itemType.video)
-                          : `https://apicenter.laotel.com:9443/tplussocial/VideoStreaming?v=${itemType.filename}`
+                          : `${$config.mediaUrl}/VideoStreaming?v=${itemType.filename}`
                       "
                       controls
                       height="155"
@@ -765,7 +765,7 @@
                       :src="
                         itemType.imageVideo && itemType.imageVideo !== null
                           ? playURL(itemType.imageVideo)
-                          : `https://apicenter.laotel.com:9443/tplussocial?img=${itemType.thumbnail}`
+                          : `${$config.mediaUrl}?img=${itemType.thumbnail}`
                       "
                       class="text-right"
                       style="
@@ -888,9 +888,12 @@ export default {
     async dataResponseAll() {
       // console.log('Fetching data for form update...', this.form)
       const apiCalls = [
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideotype'),
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideocategory'),
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideoquality'),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideotype`),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideocategory`),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideoquality`),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideotype`),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideocategory`),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideoquality`),
       ]
       try {
         const responses = await Promise.all(apiCalls)
@@ -1195,7 +1198,8 @@ export default {
       // }
       try {
         await this.$axios.post(
-          'http://172.28.17.102:2024/video/updatevideo',
+          `${this.$config.apiMainServiceUrl}/video/updatevideo`,
+          // `${this.$config.apiVideoUrl}/updatevideo`,
           formData,
           {
             headers: {
@@ -1211,7 +1215,8 @@ export default {
             formData.append('previewImg', file)
           })
           const responseView = await this.$axios.post(
-            'http://172.28.17.102:2024/video/addMoreDetail',
+            `${this.$config.apiMainServiceUrl}/video/addMoreDetail`,
+            // `${this.$config.apiVideoUrl}/addMoreDetail`,
             formData,
             {
               headers: {
@@ -1238,7 +1243,8 @@ export default {
             formData.append('videoData', videoData)
             try {
               const responseView = await this.$axios.post(
-                'http://172.28.17.102:2024/video/updatevideoqualityinfo',
+                // `${this.$config.apiVideoUrl}/updatevideoqualityinfo`,
+                `${this.$config.apiMainServiceUrl}/video/updatevideoqualityinfo`,
                 formData,
                 {
                   headers: {
@@ -1274,7 +1280,8 @@ export default {
             formData.append('videoData', videoData)
             try {
               const responseView = await this.$axios.post(
-                'http://172.28.17.102:2024/video/updateVideoSeries',
+                `${this.$config.apiMainServiceUrl}/video/updateVideoSeries`,
+                // `${this.$config.apiVideoUrl}/updateVideoSeries`,
                 formData,
                 {
                   headers: {
@@ -1305,7 +1312,8 @@ export default {
                 formData.append('videoData', videoData)
                 try {
                   const responseView = await this.$axios.post(
-                    'http://172.28.17.102:2024/video/updateVideoSeriesQualityInfo',
+                    `${this.$config.apiMainServiceUrl}/video/updateVideoSeriesQualityInfo`,
+                    // `${this.$config.apiVideoUrl}/updateVideoSeriesQualityInfo`,
                     formData,
                     {
                       headers: {

@@ -185,7 +185,7 @@
                                         : 'to top right, rgba(225,225,225,0.7), rgba(225,225,225,0.7)'
                                     "
                                     class="text-center"
-                                    :src="`https://apicenter.laotel.com:9443/tplussocial?img=${
+                                    :src="`${$config.mediaUrl}?img=${
                                       item_video.videoQualityinfodata?.length >
                                       0
                                         ? item_video.videoQualityinfodata[0]
@@ -557,7 +557,7 @@
                                         : 'to top right, rgba(225,225,225,0.7), rgba(225,225,225,0.7)'
                                     "
                                     class="text-center"
-                                    :src="`https://apicenter.laotel.com:9443/tplussocial?img=${
+                                    :src="`${$config.mediaUrl}?img=${
                                       item.videoQualityinfodata?.length > 0
                                         ? item.videoQualityinfodata[0]
                                             ?.thumbnail
@@ -1067,7 +1067,8 @@ export default {
         this.searchvideo = true
         try {
           const response = await this.$axios.post(
-            'http://172.28.17.102:2024/video/searchVideoWithAllCategory?pageNo=1&pageSize=250',
+            `${this.$config.apiMainServiceUrl}/video/searchVideoWithAllCategory?pageNo=1&pageSize=250`,
+            // `${this.$config.apiVideoUrl}/searchVideoWithAllCategory?pageNo=1&pageSize=250`,
             {
               videoName: this.search,
             }
@@ -1126,16 +1127,37 @@ export default {
       this.$store.commit('SET_ACTIVE_BKIMG', updatedActive)
       this.$store.commit('SET_ACTIVE_VIDEO', updatedActive)
     },
-    deleteVideo(id) {
-      this.modal = false
-      id === '54984'
-        ? this.messageModal('success', false)
-        : this.messageModal('error', false)
+    async deleteVideo(id) {
+      if (!id) {
+        this.messageModal('error', 'ບໍ່ພົບລະຫັດວີດີໂອ!')
+        return
+      }
+      try {
+        await this.$axios.post(
+          `${this.$config.apiVideoUrl}/deleteVideo/${encodeURIComponent(id)}`
+          // `${this.$config.apiMainServiceUrl}/video/deleteVideo/${encodeURIComponent(id)}`
+        )
+        this.messageModal('success', 'ລົບວີດີໂອສໍາເລັດ.')
+        // remove from search results if currently searching
+        this.videosearch = this.videosearch.filter((v) => v.videoId !== id)
+      } catch (error) {
+        console.error('Error deleting video:', error)
+        const desc = error.response?.data?.resultDesc
+        this.messageModal(
+          'error',
+          desc === 'Video not found' ? 'ບໍ່ພົບວີດີໂອນີ້!' : 'ລົບວີດີໂອບໍ່ສໍາເລັດ!'
+        )
+      } finally {
+        this.modal = false
+        this.idVideo = ''
+        this.filterMoviesByType()
+      }
     },
     async activeVideo(id, active) {
       try {
         await this.$axios.post(
-          'http://172.28.17.102:2024/video/updateIsActive',
+          `${this.$config.apiMainServiceUrl}/video/updateIsActive`,
+          // `${this.$config.apiVideoUrl}/updateIsActive`,
           {
             videoId: id,
             isActive: active,
@@ -1167,7 +1189,8 @@ export default {
     async filterMoviesByType() {
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/getallvideotype'
+          // `${this.$config.apiMainServiceUrl}/video/getallvideotype`
+          `${this.$config.apiVideoUrl}/getallvideotype`
         )
         this.tabs = response.data.detail || []
         this.pageVideo = this.filteredType.map((item) => ({
@@ -1182,7 +1205,8 @@ export default {
     async handleSearch() {
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/getAllVideoWithFileVideoFromType',
+          // `${this.$config.apiMainServiceUrl}/video/getAllVideoWithFileVideoFromType`,
+          `${this.$config.apiVideoUrl}/getAllVideoWithFileVideoFromType`,
           {
             typeLimits: this.pageVideo,
           }

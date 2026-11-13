@@ -61,7 +61,7 @@
                   />
                   <v-img
                     v-else
-                    :src="`https://apicenter.laotel.com:9443/tplussocial?img=${localForm.image}`"
+                    :src="`${$config.mediaUrl}?img=${localForm.image}`"
                     style="
                       width: 245px;
                       height: 118px;
@@ -107,7 +107,7 @@
                   />
                   <v-img
                     v-else
-                    :src="`https://apicenter.laotel.com:9443/tplussocial?img=${localForm.bkimage}`"
+                    :src="`${$config.mediaUrl}?img=${localForm.bkimage}`"
                     style="
                       width: 245px;
                       height: 118px;
@@ -523,8 +523,10 @@ export default {
   methods: {
     async dataResponseAll() {
       const apiCalls = [
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideotype'),
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideocategory'),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideotype`),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideocategory`),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideotype`),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideocategory`),
       ]
       try {
         const responses = await Promise.all(apiCalls)
@@ -674,7 +676,8 @@ export default {
       }
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/addvideo',
+          `${this.$config.apiMainServiceUrl}/video/addvideo`,
+          // `${this.$config.apiVideoUrl}/addvideo`,
           formData,
           {
             headers: {

@@ -186,7 +186,8 @@ export default {
   methods: {
     async getData() {
       const apiCalls = [
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideoquality'),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideoquality`),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideoquality`),
       ]
       try {
         const responses = await Promise.all(apiCalls)
@@ -265,7 +266,10 @@ export default {
       formData.append('videoData', videoData)
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/addvideoqualityinfo',
+          `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
+          `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
+          // `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
+          // `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
           formData,
           {
             headers: {

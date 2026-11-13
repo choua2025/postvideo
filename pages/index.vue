@@ -193,7 +193,8 @@ export default {
     async handleSearch() {
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/getAllVideoWithFileVideoFromType',
+          // `${this.$config.apiMainServiceUrl}/video/getAllVideoWithFileVideoFromType`,
+          `${this.$config.apiVideoUrl}/getAllVideoWithFileVideoFromType`,
           {
             typeLimits: this.pageVideo,
           }
@@ -207,8 +208,10 @@ export default {
     async dataResponseAll() {
       try {
         const [videoTypeResponse, topVideoResponse] = await Promise.all([
-          this.$axios.post('http://172.28.17.102:2024/video/getallvideotype'),
-          this.$axios.post('http://172.28.17.102:2024/video/topVideo'),
+          // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideotype`),
+          // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/topVideo`),
+          this.$axios.post(`${this.$config.apiVideoUrl}/getallvideotype`),
+          this.$axios.post(`${this.$config.apiVideoUrl}/topVideo`),
         ])
         this.itemsType = videoTypeResponse.data.detail || [];
         console.log('topVideoResponse::',topVideoResponse.data.detail.data)
@@ -339,7 +342,8 @@ export default {
       formData.append('videoData', videoData)
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/addVideoPackages',
+          // `${this.$config.apiVideoUrl}/addVideoPackages`,
+          `${this.$config.apiMainServiceUrl}/video/addVideoPackages`,
           formData,
           {
             headers: {
@@ -347,9 +351,11 @@ export default {
             },
           }
         )
+        console.log('Package added successfully:', response.data)
         if (response.status === 201 || response.status === 201) {
           this.messageModal('success')
           this.dataResponsePackage()
+          console.log('Updated package types:', this.packageType)
         } else {
           console.error('Unexpected response status:', response.status)
           this.messageModal('error', `Unexpected status: ${response.status}`)
@@ -367,10 +373,12 @@ export default {
       const limitPackage = this.packageType.length + 10
       try {
         const res = await this.$axios.post(
-          `http://172.28.17.102:2024/video/listVideoPackages?page=1&limit=${limitPackage}`
+          // `${this.$config.apiVideoUrl}/listVideoPackages?page=1&limit=${limitPackage}`
+          `${this.$config.apiMainServiceUrl}/video/listVideoPackages?page=1&limit=${limitPackage}`
         )
         this.packageType = res.data.detail ? res.data.detail.data : []
         this.addPackage = false
+        console.log('Package data fetched successfully:',res.data)
       } catch (error) {
         console.error('Error fetching video types:', error)
       }

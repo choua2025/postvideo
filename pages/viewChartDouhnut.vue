@@ -115,7 +115,7 @@ export default {
           render: (h, params) => {
             return h('img', {
               attrs: {
-                src: `https://apicenter.laotel.com:9443/tplussocial?img=${params.row.img}`,
+                src: `${this.$config.mediaUrl}?img=${params.row.img}`,
                 alt: params.row.name,
                 width: '135',
                 height: '86',

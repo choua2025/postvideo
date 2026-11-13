@@ -11,7 +11,7 @@
           :src="
             isFile(form.image)
               ? playURL(form.image)
-              : `https://apicenter.laotel.com:9443/tplussocial?img=${
+              : `${$config.mediaUrl}?img=${
                   form.image || ''
                 }`
           "
@@ -54,7 +54,7 @@
                         width="100%"
                         height="100%"
                         class="text-center"
-                        :src="`https://apicenter.laotel.com:9443/tplussocial?img=${
+                        :src="`${$config.mediaUrl}?img=${
                           items.img || ''
                         }`"
                         :gradient="
@@ -513,8 +513,12 @@ export default {
       const id = this.form.id
       // console.log('Video ID', id)
       const apiCalls = [
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideoquality'),
-        this.$axios.post('http://172.28.17.102:2024/video/getallvideoseries', {
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideoquality`),
+        // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideoseries`, {
+        //   videoId: id,
+        // }),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideoquality`),
+        this.$axios.post(`${this.$config.apiVideoUrl}/getallvideoseries`, {
           videoId: id,
         }),
       ]
@@ -597,7 +601,8 @@ export default {
       formData.append('videoData', videoData)
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/addseries',
+          `${this.$config.apiMainServiceUrl}/video/addseries`,
+          // `${this.$config.apiVideoUrl}/addseries`,
           formData,
           {
             headers: {
@@ -634,7 +639,8 @@ export default {
       formData.append('videoData', videoData)
       try {
         const response = await this.$axios.post(
-          'http://172.28.17.102:2024/video/addseriesdetail',
+          `${this.$config.apiMainServiceUrl}/video/addseriesdetail`,
+          // `${this.$config.apiVideoUrl}/addseriesdetail`,
           formData,
           {
             headers: {

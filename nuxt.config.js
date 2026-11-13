@@ -58,15 +58,15 @@ export default {
         },
         endpoints: {
           login: {
-            url: 'http://172.28.26.23:3100/users/loginAdminVideo',
+            url: `${process.env.AUTH_API_URL}/loginAdminVideo`,
             method: 'post',
           },
           logout: {
-            url: 'http://172.28.17.102:3600/users/logout',
+            url: `${process.env.API_BASE_URL}/users/logout`,
             method: 'delete',
           },
           user: {
-            url: 'http://172.28.26.23:3100/users/marketdetail',
+            url: `${process.env.AUTH_API_URL}/marketdetail`,
             method: 'get',
           },
         },
@@ -75,7 +75,7 @@ export default {
   },
   proxy: {
     '/users/': {
-      target: 'http://172.28.17.102:3600',
+      target: process.env.API_BASE_URL,
       pathRewrite: { '^/users/': '/users/' },
       changeOrigin: true,
       secure: false,
@@ -83,7 +83,12 @@ export default {
   },
 
   axios: {
-    baseURL: 'http://172.28.17.102:3600',
+    baseURL: process.env.API_BASE_URL,
+  },
+  publicRuntimeConfig: {
+    apiMainServiceUrl: process.env.API_MAIN_SERVICE_URL,
+    apiVideoUrl: process.env.API_VIDEO_URL,
+    mediaUrl: process.env.MEDIA_URL,
   },
   pwa: {
     manifest: {

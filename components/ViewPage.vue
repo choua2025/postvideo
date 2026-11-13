@@ -3,7 +3,7 @@
     <v-card-text class="px-4" style="padding: 12px">
       <div class="cover-photo">
         <img
-          :src="`https://apicenter.laotel.com:9443/tplussocial?img=${
+          :src="`${$config.mediaUrl}?img=${
             form.bkimage ? form.bkimage
               : ''
           }`"
@@ -13,7 +13,7 @@
       <div class="profile-info">
         <div class="avatar">
           <img
-          :src="`https://apicenter.laotel.com:9443/tplussocial?img=${
+          :src="`${$config.mediaUrl}?img=${
             form.image ? form.image
               : ''
           }`"
@@ -75,7 +75,7 @@
                 width: 220px;
                 flex: 0 0 auto;
               "
-              :src="`https://apicenter.laotel.com:9443/tplussocial?img=${item}`"
+              :src="`${$config.mediaUrl}?img=${item}`"
             />
           </v-card>
           <v-card
@@ -124,7 +124,7 @@
                   <v-divider color="#FFFF" />
                 </v-card>
                 <video
-                  :src="`https://apicenter.laotel.com:9443/tplussocial/VideoStreaming?v=${
+                  :src="`${$config.mediaUrl}/VideoStreaming?v=${
                     form.video.length > 0 ? itemVideo.filename || '' : ''
                   }`"
                   controls

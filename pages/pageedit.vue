@@ -357,10 +357,13 @@
       },
     },
     methods: {
+
       async dataResponseAll() {
         const apiCalls = [
-          this.$axios.post('http://172.28.17.102:2024/video/getallvideotype'),
-          this.$axios.post('http://172.28.17.102:2024/video/getallvideocategory'),
+          // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideotype`),
+          // this.$axios.post(`${this.$config.apiMainServiceUrl}/video/getallvideocategory`),
+          this.$axios.post(`${this.$config.apiVideoUrl}/getallvideotype`),
+          this.$axios.post(`${this.$config.apiVideoUrl}/getallvideocategory`),
         ];
         try {
           const responses = await Promise.all(apiCalls);

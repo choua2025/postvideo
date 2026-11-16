@@ -266,10 +266,10 @@ export default {
       formData.append('videoData', videoData)
       try {
         const response = await this.$axios.post(
-          `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
-          `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
+          // `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
+          // `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
           // `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
-          // `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
+          `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
           formData,
           {
             headers: {

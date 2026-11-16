@@ -342,8 +342,8 @@ export default {
       formData.append('videoData', videoData)
       try {
         const response = await this.$axios.post(
-          // `${this.$config.apiVideoUrl}/addVideoPackages`,
-          `${this.$config.apiMainServiceUrl}/video/addVideoPackages`,
+          `${this.$config.apiVideoUrl}/addVideoPackages`,
+          // `${this.$config.apiMainServiceUrl}/video/addVideoPackages`,
           formData,
           {
             headers: {
@@ -373,8 +373,8 @@ export default {
       const limitPackage = this.packageType.length + 10
       try {
         const res = await this.$axios.post(
-          // `${this.$config.apiVideoUrl}/listVideoPackages?page=1&limit=${limitPackage}`
-          `${this.$config.apiMainServiceUrl}/video/listVideoPackages?page=1&limit=${limitPackage}`
+          `${this.$config.apiVideoUrl}/listVideoPackages?page=1&limit=${limitPackage}`
+          // `${this.$config.apiMainServiceUrl}/video/listVideoPackages?page=1&limit=${limitPackage}`
         )
         this.packageType = res.data.detail ? res.data.detail.data : []
         this.addPackage = false

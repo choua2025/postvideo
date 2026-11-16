@@ -676,8 +676,8 @@ export default {
       }
       try {
         const response = await this.$axios.post(
-          `${this.$config.apiMainServiceUrl}/video/addvideo`,
-          // `${this.$config.apiVideoUrl}/addvideo`,
+          `${this.$config.apiVideoUrl}/addvideo`,
+          // `${this.$config.apiMainServiceUrl}/video/addvideo`,
           formData,
           {
             headers: {
@@ -700,10 +700,15 @@ export default {
         this.deleteFrom();
         this.messageModal('success');
       } catch (error) {
-        console.error(
-          'Error fetching data:',
-          error.response ? error.response.data : error.message
-        )
+        const errData = error.response ? error.response.data : error.message
+        console.error('Error addvideo:', errData)
+        this.$Notice.error({
+          title: `<span class="custom-font">ເພີ່ມຂໍ້ມູນວີດີໂອບໍ່ສໍາເລັດ</span>`,
+          desc: `<span class="custom-font">${
+            error.response?.data?.resultDesc || error.message
+          }</span>`,
+          duration: 0,
+        })
       }
     },
     messageModal(type) {

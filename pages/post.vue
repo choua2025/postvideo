@@ -1067,8 +1067,8 @@ export default {
         this.searchvideo = true
         try {
           const response = await this.$axios.post(
-            `${this.$config.apiMainServiceUrl}/video/searchVideoWithAllCategory?pageNo=1&pageSize=250`,
-            // `${this.$config.apiVideoUrl}/searchVideoWithAllCategory?pageNo=1&pageSize=250`,
+            // `${this.$config.apiMainServiceUrl}/video/searchVideoWithAllCategory?pageNo=1&pageSize=250`,
+            `${this.$config.apiVideoUrl}/searchVideoWithAllCategory?pageNo=1&pageSize=250`,
             {
               videoName: this.search,
             }
@@ -1156,8 +1156,8 @@ export default {
     async activeVideo(id, active) {
       try {
         await this.$axios.post(
-          `${this.$config.apiMainServiceUrl}/video/updateIsActive`,
-          // `${this.$config.apiVideoUrl}/updateIsActive`,
+          // `${this.$config.apiMainServiceUrl}/video/updateIsActive`,
+          `${this.$config.apiVideoUrl}/updateIsActive`,
           {
             videoId: id,
             isActive: active,

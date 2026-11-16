@@ -1198,8 +1198,8 @@ export default {
       // }
       try {
         await this.$axios.post(
-          `${this.$config.apiMainServiceUrl}/video/updatevideo`,
-          // `${this.$config.apiVideoUrl}/updatevideo`,
+          // `${this.$config.apiMainServiceUrl}/video/updatevideo`,
+          `${this.$config.apiVideoUrl}/updatevideo`,
           formData,
           {
             headers: {
@@ -1215,8 +1215,8 @@ export default {
             formData.append('previewImg', file)
           })
           const responseView = await this.$axios.post(
-            `${this.$config.apiMainServiceUrl}/video/addMoreDetail`,
-            // `${this.$config.apiVideoUrl}/addMoreDetail`,
+            // `${this.$config.apiMainServiceUrl}/video/addMoreDetail`,
+            `${this.$config.apiVideoUrl}/addMoreDetail`,
             formData,
             {
               headers: {
@@ -1243,8 +1243,8 @@ export default {
             formData.append('videoData', videoData)
             try {
               const responseView = await this.$axios.post(
-                // `${this.$config.apiVideoUrl}/updatevideoqualityinfo`,
-                `${this.$config.apiMainServiceUrl}/video/updatevideoqualityinfo`,
+                `${this.$config.apiVideoUrl}/updatevideoqualityinfo`,
+                // `${this.$config.apiMainServiceUrl}/video/updatevideoqualityinfo`,
                 formData,
                 {
                   headers: {
@@ -1280,8 +1280,8 @@ export default {
             formData.append('videoData', videoData)
             try {
               const responseView = await this.$axios.post(
-                `${this.$config.apiMainServiceUrl}/video/updateVideoSeries`,
-                // `${this.$config.apiVideoUrl}/updateVideoSeries`,
+                // `${this.$config.apiMainServiceUrl}/video/updateVideoSeries`,
+                `${this.$config.apiVideoUrl}/updateVideoSeries`,
                 formData,
                 {
                   headers: {
@@ -1312,8 +1312,8 @@ export default {
                 formData.append('videoData', videoData)
                 try {
                   const responseView = await this.$axios.post(
-                    `${this.$config.apiMainServiceUrl}/video/updateVideoSeriesQualityInfo`,
-                    // `${this.$config.apiVideoUrl}/updateVideoSeriesQualityInfo`,
+                    // `${this.$config.apiMainServiceUrl}/video/updateVideoSeriesQualityInfo`,
+                    `${this.$config.apiVideoUrl}/updateVideoSeriesQualityInfo`,
                     formData,
                     {
                       headers: {

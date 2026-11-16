@@ -4,7 +4,7 @@
       v-model="currentPage"
       :length="totalPages"
       :total-visible="7"
-      color="rgb(255, 215, 0)"
+      color="#FFC400"
       style="border-radius: 4px;"
       @input="emitPage"
     ></v-pagination>

@@ -6,6 +6,10 @@ export default {
      host: '0.0.0.0', // default: localhost serverIP: '172.28.17.102' 
    },
   ssr: false,
+  // every page requires login, except pages that set `auth: 'guest'` / `auth: false`
+  router: {
+    middleware: ['auth'],
+  },
   head: {
     titleTemplate: '%s Video',
     title: 'Admin',
@@ -105,7 +109,21 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
+      options: { customProperties: true }, // exposes var(--v-primary-base) etc.
       themes: {
+        // Tplus brand palette (used via color="primary", "error", ... and CSS vars)
+        light: {
+          primary: '#FFC400',
+          'primary-dark': '#B38A00',
+          'primary-light': '#FFF8E1',
+          secondary: '#111827',
+          accent: '#B38A00',
+          info: '#2563EB',
+          success: '#16A34A',
+          warning: '#F59E0B',
+          error: '#DC2626',
+          background: '#F5F6F8',
+        },
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,

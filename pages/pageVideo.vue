@@ -130,7 +130,6 @@ export default {
   },
   methods: {
     handleMenuItemClick(id, itemTitle) {
-      console.log(`Row ID: ${id}, Menu Item: ${itemTitle}`);
       this.$set(this.menu, id, false);
     },
   },
@@ -146,10 +145,10 @@ export default {
   padding: 2px;
 }
 .color-grad-background {
-  background-color: rgb(248, 248, 248);
+  background-color: #F5F6F8;
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 </style> -->

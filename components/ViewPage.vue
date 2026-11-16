@@ -171,7 +171,6 @@ export default {
   },
   methods: {
     getData() {
-      console.log('Form::', this.form)
     },
   },
 }
@@ -190,7 +189,7 @@ export default {
 }
 .custom-link {
   border-radius: 14px;
-  background-color: rgb(242, 242, 242);
+  background-color: #F5F6F8;
 }
 .custom-p {
   width: 90px;
@@ -225,7 +224,7 @@ export default {
 }
 
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 
 .color-text {
@@ -237,22 +236,22 @@ export default {
 }
 
 .table-container ::-webkit-scrollbar-thumb {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 
 .table-container ::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -269,7 +268,7 @@ export default {
   padding: 2px;
 }
 .color-grad-background {
-  background-color: rgb(248, 248, 248);
+  background-color: #F5F6F8;
 }
 .cover-photo img {
   width: 100%;

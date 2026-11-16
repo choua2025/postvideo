@@ -1,5 +1,5 @@
 <template>
-    <div class="custom-font" style="background-color: rgb(239, 239, 239)">
+    <div class="custom-font" style="background-color: #F5F6F8">
       <v-card-text class="px-8 py-6">
         <br /><br />
         <h2 class="custom-font">ຊື່ວີດີໂອ</h2>
@@ -37,7 +37,7 @@
                     <Icon
                       type="md-images"
                       size="52"
-                      style="color: rgb(255, 215, 0)"
+                      style="color: #FFC400"
                     />
                     <p class="custom-font color-text-load">ໂຫຼດຮູບພາບ</p>
                   </div>
@@ -78,7 +78,7 @@
                     <Icon
                       type="ios-image-outline"
                       size="52"
-                      style="color: rgb(255, 215, 0)"
+                      style="color: #FFC400"
                     />
                     <p class="custom-font color-text-load">ໂຫຼດຮູບພືນຫຼັງ</p>
                   </div>
@@ -177,8 +177,8 @@
             <v-col cols="6" class="py-0">
               <Modal v-model="editType" width="340">
                 <template #header>
-                  <p style="color: rgb(255, 215, 0); text-align: center">
-                    <v-icon color="rgb(255, 215, 0)"
+                  <p style="color: #FFC400; text-align: center">
+                    <v-icon color="#FFC400"
                       >mdi-clipboard-edit-outline</v-icon
                     >
                     <span class="custom-font">ເພີ່ມປະເພດຂອງໜັງ</span>
@@ -218,7 +218,7 @@
                     long
                     disabled
                     class="custom-font"
-                    style="background-color: rgb(255, 215, 0); color: #ffff"
+                    style="background-color: #FFC400; color: #ffff"
                     @click="addType"
                   >
                     ເພີ່ມປະເພດ
@@ -299,7 +299,7 @@
               style="color: transparent"
               @dblclick="deleteFrom"
             >
-              <h3 style="color: #ed4014">ລ້າງຂໍ້ມູນທັງໝົດ</h3>
+              <h3 style="color: #DC2626">ລ້າງຂໍ້ມູນທັງໝົດ</h3>
             </v-btn>
           </Tooltip>
         </v-card-text>
@@ -308,7 +308,7 @@
           width="100%"
           height="50"
           class="custom-font color-text custom-btn"
-          style="background-color: rgb(255, 215, 0)"
+          style="background-color: #FFC400"
           @click="addVideo"
         >
           <h2>ເພີ່ມ</h2>
@@ -372,7 +372,6 @@
             videocategory,
           ] = responses;
           this.itemsType = videoType.data.detail;
-          console.log(videocategory)
           this.category = videocategory.data.detail;
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -392,7 +391,6 @@
         this.localForm = {}
       },
       handleMenuItemClick(id, title, image, des, price, type, bkimage) {
-        console.log(this.localForm)
         const updatedForm = {
           id,
           title,
@@ -439,9 +437,7 @@
       addVideo() {
         const { title, image, des, price, type, bkimage } =
           this.localForm
-          console.log(des)
         if ( title && image && des && price && type && bkimage) {
-          console.log('Adding video:', this.localForm)
           this.messageModal('success');
         } else {
           this.messageModal('error');
@@ -485,7 +481,7 @@
   }
   
   .BK-color {
-    background-color: rgb(255, 215, 0);
+    background-color: #FFC400;
   }
   
   .color-text {
@@ -506,22 +502,22 @@
     box-shadow: 2px 4px 4px rgba(128, 102, 0, 0.5);
   }
   .table-container::-webkit-scrollbar-thumb {
-    background-color: #ed4014;
+    background-color: #DC2626;
     border-radius: 4px;
   }
   
   .table-container::-webkit-scrollbar-corner {
-    background-color: #ffff00;
+    background-color: #FFC400;
     border-radius: 4px;
   }
   .color-hover {
     color: none;
   }
   .color-hover:hover {
-    color: rgb(255, 215, 0);
+    color: #FFC400;
   }
   .color-red {
-    color: #ed4014;
+    color: #DC2626;
   }
   .color-grad {
     background-color: rgb(255, 255, 240);
@@ -536,7 +532,7 @@
     color: rgb(77, 77, 77);
   }
   .mouse-hover-menu:hover {
-    background-color: rgb(255, 215, 0);
+    background-color: #FFC400;
     color: #ffff;
   }
   .border-input {

@@ -9,7 +9,7 @@
   padding: 0px;
 }
 .custom-arrow:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #fff;
 }
 .table-container ::-webkit-scrollbar {
@@ -18,12 +18,12 @@
 }
 
 .table-container ::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   border-radius: 4px;
 }
 
 .table-container ::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .overflow-container {
@@ -85,13 +85,13 @@
   background-color: rgb(255, 255, 255);
 }
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 
 .custom-video:hover {
@@ -102,7 +102,7 @@
   color: #ff8080;
 }
 .custom-btn-cancel:hover {
-  color: #ff0000;
+  color: #DC2626;
 }
 .color-text-load {
   color: rgb(140, 140, 140);
@@ -214,7 +214,6 @@ export default {
           this.$axios.post(`${this.$config.apiVideoUrl}/topVideo`),
         ])
         this.itemsType = videoTypeResponse.data.detail || [];
-        console.log('topVideoResponse::',topVideoResponse.data.detail.data)
         this.videoMaxview = topVideoResponse.data.detail.data || [];
         this.pageVideo = this.filteredType.map((item) => ({
           typeId: item.typeId,
@@ -351,11 +350,9 @@ export default {
             },
           }
         )
-        console.log('Package added successfully:', response.data)
         if (response.status === 201 || response.status === 201) {
           this.messageModal('success')
           this.dataResponsePackage()
-          console.log('Updated package types:', this.packageType)
         } else {
           console.error('Unexpected response status:', response.status)
           this.messageModal('error', `Unexpected status: ${response.status}`)
@@ -378,7 +375,6 @@ export default {
         )
         this.packageType = res.data.detail ? res.data.detail.data : []
         this.addPackage = false
-        console.log('Package data fetched successfully:',res.data)
       } catch (error) {
         console.error('Error fetching video types:', error)
       }
@@ -519,7 +515,7 @@ export default {
       fixed
       width="450"
       class="table-container"
-      style="background-color: rgb(242, 242, 242)"
+      style="background-color: #F5F6F8"
       @click.stop
     >
       <v-card
@@ -695,8 +691,8 @@ export default {
             style="padding: 0px"
           >
             <template #header>
-              <div style="color: rgb(255, 215, 0); text-align: center">
-                <v-icon color="rgb(255, 215, 0)">mdi-package</v-icon>
+              <div style="color: #FFC400; text-align: center">
+                <v-icon color="#FFC400">mdi-package</v-icon>
                 <span class="custom-font">ປະເພດເເພັກເກັດ</span>
               </div>
             </template>
@@ -784,14 +780,14 @@ export default {
             <template #header>
               <v-card-actions
                 style="
-                  color: rgb(255, 215, 0);
+                  color: #FFC400;
                   padding: 0px;
                   display: flex;
                   justify-content: center;
                   align-items: center;
                 "
               >
-                <v-icon color="rgb(255, 215, 0)"
+                <v-icon color="#FFC400"
                   >mdi-package-variant-plus</v-icon
                 >
                 &nbsp;
@@ -917,7 +913,7 @@ export default {
                       <Icon
                         type="md-images"
                         size="32"
-                        style="color: rgb(255, 215, 0)"
+                        style="color: #FFC400"
                       />
                       <p class="custom-font color-text-load">
                         ໂຫຼດຮູບພາບເເພັກເກັດ
@@ -953,13 +949,13 @@ export default {
                   class="custom-btn-cancel"
                   @click="cancelPackage"
                 >
-                  <h3>cancel</h3>
+                  <h3 class="custom-font">ຍົກເລີກ</h3>
                 </Button>
                 <Button
                   style="background-color: #ff9900; color: #ffff"
                   @click="saveAllPackage"
                 >
-                  <h3>save</h3>
+                  <h3 class="custom-font">ບັນທຶກ</h3>
                 </Button>
               </v-card-actions>
             </template>
@@ -1005,8 +1001,8 @@ export default {
             style="padding: 0px"
           >
             <template #header>
-              <div style="color: rgb(255, 215, 0); text-align: center">
-                <v-icon color="rgb(255, 215, 0)"
+              <div style="color: #FFC400; text-align: center">
+                <v-icon color="#FFC400"
                   >mdi-format-list-checkbox</v-icon
                 >
                 <span class="custom-font">ປະເພດຂອງວີດີໂອ</span>

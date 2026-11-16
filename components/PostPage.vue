@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-font" style="background-color: rgb(239, 239, 239)">
+  <div class="custom-font" style="background-color: #F5F6F8">
     <v-card-text v-if="Add_Next" class="px-8 py-6">
       <br /><br />
       <h2 class="custom-font" style="text-decoration: underline">ຊື່ວີດີໂອ</h2>
@@ -25,7 +25,7 @@
       <br /><br />
       <h2 class="custom-font" style="text-decoration: underline">ໂຫຼດຂໍ້ມູນ</h2>
       <v-card outlined class="px-8 py-4 mt-2 colo-with">
-        <v-card-text style="background-color: rgb(248, 248, 248)">
+        <v-card-text style="background-color: #F5F6F8">
           <v-row>
             <v-col cols="6" class="pb-0">
               <Upload
@@ -38,7 +38,7 @@
                   <Icon
                     type="md-images"
                     size="52"
-                    style="color: rgb(255, 215, 0)"
+                    style="color: #FFC400"
                   />
                   <p class="custom-font color-text-load">ໂຫຼດຮູບພາບໂປຣໄຟຣ</p>
                 </div>
@@ -84,7 +84,7 @@
                   <Icon
                     type="ios-image-outline"
                     size="52"
-                    style="color: rgb(255, 215, 0)"
+                    style="color: #FFC400"
                   />
                   <p class="custom-font color-text-load">ໂຫຼດຮູບພາບພືນຫຼັງ</p>
                 </div>
@@ -260,8 +260,8 @@
           <v-col cols="6" class="py-0">
             <Modal v-model="editType" width="340">
               <template #header>
-                <p style="color: rgb(255, 215, 0); text-align: center">
-                  <v-icon color="rgb(255, 215, 0)"
+                <p style="color: #FFC400; text-align: center">
+                  <v-icon color="#FFC400"
                     >mdi-clipboard-edit-outline</v-icon
                   >
                   <span class="custom-font">ເພີ່ມປະເພດຂອງໜັງ</span>
@@ -301,7 +301,7 @@
                   long
                   disabled
                   class="custom-font"
-                  style="background-color: rgb(255, 215, 0); color: #ffff"
+                  style="background-color: #FFC400; color: #ffff"
                   @click="addType"
                 >
                   ເພີ່ມປະເພດ
@@ -392,7 +392,7 @@
             style="color: transparent"
             @dblclick="deleteFrom"
           >
-            <h3 style="color: #ed4014">ລ້າງຂໍ້ມູນທັງໝົດ</h3>
+            <h3 style="color: #DC2626">ລ້າງຂໍ້ມູນທັງໝົດ</h3>
           </v-btn>
         </Tooltip>
       </v-card-text>
@@ -408,7 +408,7 @@
             class="txt-center d-flex flex-column align-center justify-center"
           >
             <br />
-            <v-icon class="mb-2" size="38" color="rgb(255, 215, 0)"
+            <v-icon class="mb-2" size="38" color="#FFC400"
               >mdi-alert-circle</v-icon
             >
             <h4 class="custom-font">ຕ້ອງການເພີ່ມວີດີໂອຕອນນີ້ ຫຼື ບໍ່?</h4>
@@ -419,19 +419,19 @@
               height="30"
               text
               class="custom-font"
-              style="color: #ff0000"
+              style="color: #DC2626"
               @click="reSetValue"
             >
-              <h4>close</h4>
+              <h4>ປິດ</h4>
             </v-btn>
             <v-btn
               height="30"
               text
               class="custom-font color-text custom-btn"
-              style="background-color: rgb(255, 215, 0)"
+              style="background-color: #FFC400"
               @click="AddValueVideo"
             >
-              <h4>Next</h4>
+              <h4>ຕໍ່ໄປ</h4>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -440,10 +440,15 @@
         width="100%"
         height="50"
         class="custom-font color-text custom-btn"
-        style="background-color: rgb(255, 215, 0)"
+        style="background-color: #FFC400"
+        :disabled="saving"
         @click="addVideo"
-      > 
-        <h2>ເພີ່ມ</h2>
+      >
+        <h2 v-if="!saving">ເພີ່ມ</h2>
+        <h3 v-else>
+          <v-progress-circular indeterminate size="20" width="2" class="mr-2" />
+          ກຳລັງບັນທຶກ... {{ uploadProgress }}%
+        </h3>
       </v-btn>
     </v-card-text>
     <v-card-text v-else class="px-3 py-0">
@@ -458,6 +463,8 @@ export default {
   name: 'PostPage',
   data() {
     return {
+      saving: false,
+      uploadProgress: 0,
       value_p: 0,
       dialog: false,
       imageview: [],
@@ -611,7 +618,6 @@ export default {
     },
     AddValueVideo() {
       const updatedForm = this.dataVideo
-      console.log('Data-video::', updatedForm)
       this.$store.commit('SET_FORM', updatedForm);
       this.$store.commit('SET_STEP_ADD_VIDEO', this.typeofID);
       this.reSetValue();
@@ -634,7 +640,7 @@ export default {
     async addVideo() {
       const { title, des, price, type, bkimage, image, reduced, category,  } =
         this.localForm;
-        console.log(price , reduced)
+      if (this.saving) return
       if (
         !title ||
         !des ||
@@ -674,6 +680,8 @@ export default {
       } else {
         console.error('Category is not an array:', category)
       }
+      this.saving = true
+      this.uploadProgress = 0
       try {
         const response = await this.$axios.post(
           `${this.$config.apiVideoUrl}/addvideo`,
@@ -682,6 +690,9 @@ export default {
           {
             headers: {
               'Content-Type': 'multipart/form-data',
+            },
+            onUploadProgress: (e) => {
+              if (e.total) this.uploadProgress = Math.round((e.loaded * 100) / e.total)
             },
           }
         )
@@ -711,6 +722,8 @@ export default {
           }</span>`,
           duration: 0,
         })
+      } finally {
+        this.saving = false
       }
     },
     messageModal(type) {
@@ -764,7 +777,7 @@ export default {
 }
 
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 
 .color-text {
@@ -780,30 +793,30 @@ export default {
   box-shadow: 0 0 0px 0px rgba(128, 102, 0, 0.5);
 }
 .close-btn:hover {
-  background-color: rgb(255, 215, 0);
-  color: #ed4014;
+  background-color: #FFC400;
+  color: #DC2626;
 }
 .custom-btn:hover {
   outline: 0px solid black;
   box-shadow: 2px 4px 4px rgba(128, 102, 0, 0.5);
 }
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #ed4014;
+  background-color: #DC2626;
   border-radius: 4px;
 }
 
 .table-container::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -818,7 +831,7 @@ export default {
   color: rgb(77, 77, 77);
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .border-input {

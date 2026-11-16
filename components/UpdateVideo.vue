@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-font" style="background-color: rgb(239, 239, 239)">
+  <div class="custom-font" style="background-color: #F5F6F8">
     <v-card-text class="px-8 py-6">
       <br /><br />
       <h2 class="custom-font" style="text-decoration: underline">ຊື່ວີດີໂອ</h2>
@@ -25,7 +25,7 @@
       <v-card outlined class="px-8 py-4 mt-2 colo-with">
         <v-card-text
           class="py-7 px-6"
-          style="background-color: rgb(248, 248, 248)"
+          style="background-color: #F5F6F8"
         >
           <v-row>
             <v-col cols="6" class="pa-0">
@@ -240,7 +240,7 @@
               <v-card
                 flat
                 width="100%"
-                style="background-color: rgb(248, 248, 248)"
+                style="background-color: #F5F6F8"
               >
                 <v-card-actions class="pa-0" width="100%">
                   <v-card
@@ -283,7 +283,7 @@
                     style="
                       width: 80px;
                       height: 100%;
-                      background-color: rgb(248, 248, 248);
+                      background-color: #F5F6F8;
                     "
                     class="d-flex justify-center align-center pt-1"
                   >
@@ -416,7 +416,7 @@
       <div
         v-else
         span="12"
-        style="background: rgb(239, 239, 239); padding: 16px"
+        style="background: #F5F6F8; padding: 16px"
       >
         <Tabs
           type="card"
@@ -600,7 +600,7 @@
                               <Icon
                                 type="md-images"
                                 size="52"
-                                style="color: rgb(255, 215, 0)"
+                                style="color: #FFC400"
                               />
                               <p class="custom-font color-text-load">
                                 ຮູບພາບວິດິໂອ
@@ -751,7 +751,7 @@
                             <Icon
                               type="md-images"
                               size="52"
-                              style="color: rgb(255, 215, 0)"
+                              style="color: #FFC400"
                             />
                             <p class="custom-font color-text-load">
                               ໂຫຼດຮູບວີດີໂອ
@@ -799,10 +799,15 @@
         width="100%"
         height="50"
         class="custom-font color-text custom-btn"
-        style="background-color: rgb(255, 215, 0)"
+        style="background-color: #FFC400"
+        :disabled="saving"
         @click="updateVideoForm"
       >
-        <h2>ອັດເເດດຂໍ້ມູນ</h2>
+        <h2 v-if="!saving">ອັດເເດດຂໍ້ມູນ</h2>
+        <h3 v-else>
+          <v-progress-circular indeterminate size="20" width="2" class="mr-2" />
+          ກຳລັງບັນທຶກ...
+        </h3>
       </v-btn>
     </v-card-text>
   </div>
@@ -812,6 +817,7 @@ export default {
   name: 'PostPage',
   data() {
     return {
+      saving: false,
       imageview: [],
       newimageview: [],
       e1: 1,
@@ -923,8 +929,6 @@ export default {
             }
           })
         } else {
-          console.log('localFrom::', this.localFormUpdate)
-          console.log('video::', video)
           this.videonew = video.map((item) => ({
             SVideoId: item.SVideoId,
             videoId: item.videoId,
@@ -947,7 +951,6 @@ export default {
               }
             }),
           }))
-          console.log('videoSeries::', this.videonew)
         }
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -991,7 +994,6 @@ export default {
           return invalidVideo
         }
       }
-      console.log('KK::', this.videoSeries)
     },
     handleMenuItemClick(id, title, image, des, price, type, bkimage) {
       const updatedForm = {
@@ -1141,7 +1143,6 @@ export default {
             return
           }
         }
-        console.log('Update+::', UpdateVideos)
       }
       if (!id || !title || !des || !type) {
         this.messageModal(
@@ -1196,6 +1197,8 @@ export default {
       //   console.log('Check!', this.videonew)
       //   return
       // }
+      if (this.saving) return
+      this.saving = true
       try {
         await this.$axios.post(
           // `${this.$config.apiMainServiceUrl}/video/updatevideo`,
@@ -1224,7 +1227,6 @@ export default {
               },
             }
           )
-          console.log('Additional details added successfully:', responseView)
         }
         // Update video of movies and video Story
         if (UpdateVideos.length > 0) {
@@ -1252,7 +1254,6 @@ export default {
                   },
                 }
               )
-              console.log(responseView.data)
               if (index < UpdateVideos.length - 1) {
                 const fixedDelay = 200
                 await new Promise((resolve) => setTimeout(resolve, fixedDelay))
@@ -1267,7 +1268,6 @@ export default {
         // Update video of Series
         if (this.form.type === 504405213) {
           for (const [index, numero] of this.videoSeries.entries()) {
-            console.log('data::', numero)
             const formData = new FormData()
             formData.append('img', numero.image ? numero.image : '')
             formData.append('SVideoId', numero.SVideoId)
@@ -1289,7 +1289,6 @@ export default {
                   },
                 }
               )
-              console.log(responseView.data)
               if (index < this.videoSeries.length - 1) {
                 const fixedDelay = 200
                 await new Promise((resolve) => setTimeout(resolve, fixedDelay))
@@ -1321,7 +1320,6 @@ export default {
                       },
                     }
                   )
-                  console.log(responseView.data)
                   if (index < qualityInfo.length - 1) {
                     const fixedDelay = 200
                     await new Promise((resolve) =>
@@ -1345,10 +1343,18 @@ export default {
         this.messageModal('success', 'ແກ້ໄຂ້ຂໍ້ມູນສຳເລັດ.')
       } catch (error) {
         console.error(
-          'Error fetching data:',
+          'Error updatevideo:',
           error.response ? error.response.data : error.message
         )
+        this.$Notice.error({
+          title: `<span class="custom-font">ແກ້ໄຂຂໍ້ມູນບໍ່ສໍາເລັດ</span>`,
+          desc: `<span class="custom-font">${
+            error.response?.data?.resultDesc || error.message
+          }</span>`,
+          duration: 0,
+        })
       } finally {
+        this.saving = false
         this.newimageview = []
         this.videoSeries = []
       }
@@ -1391,7 +1397,7 @@ export default {
 }
 
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 
 .color-text {
@@ -1421,22 +1427,22 @@ export default {
   color: #000;
 }
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #ed4014;
+  background-color: #DC2626;
   border-radius: 4px;
 }
 
 .table-container::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -1451,7 +1457,7 @@ export default {
   color: rgb(77, 77, 77);
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .border-input {

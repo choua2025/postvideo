@@ -235,7 +235,7 @@ export default {
   height: 100%;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgb(255, 215, 0) transparent;
+  scrollbar-color: #FFC400 transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -244,7 +244,7 @@ export default {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   border-radius: 4px;
 }
 

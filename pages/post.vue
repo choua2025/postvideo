@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!select" style="background-color: rgb(239, 239, 239)">
+    <div v-if="!select" style="background-color: #F5F6F8">
       <v-overlay :value="rightDrawer" style="z-index: 110" />
       <v-navigation-drawer
         v-model="rightDrawer"
@@ -8,7 +8,7 @@
         fixed
         width="650"
         class="table-container-add scrollbar"
-        style="background-color: rgb(242, 242, 242); z-index: 110"
+        style="background-color: #F5F6F8; z-index: 110"
         @click.stop
       >
         <v-card
@@ -100,7 +100,7 @@
                 <v-btn
                   class="custom-font BK-color color-text"
                   :outlined="!isHovered"
-                  style="background-color: rgb(255, 215, 0)"
+                  style="background-color: #FFC400"
                   @mouseover="isHovered = true"
                   @mouseleave="isHovered = false"
                   @click.stop="addVideo"
@@ -118,8 +118,26 @@
                     class="custom-font"
                   >
                     <div class="pt-2">
+                      <template v-if="tabItem === id && loadingList">
+                        <v-skeleton-loader
+                          v-for="n in 5"
+                          :key="'sk' + n"
+                          type="list-item-avatar-three-line"
+                          class="mb-2"
+                        />
+                      </template>
                       <div
-                        v-for="(item_video, index) in paginatedVideos"
+                        v-else-if="tabItem === id && paginatedVideos.length === 0"
+                        class="empty-state custom-font"
+                      >
+                        <v-icon size="56" color="grey lighten-1"
+                          >mdi-movie-open-off-outline</v-icon
+                        >
+                        <h3 class="mt-2">ຍັງບໍ່ມີວີດີໂອໃນປະເພດນີ້</h3>
+                        <p>ກົດປຸ່ມ "ເພີ່ມວີດີໂອ" ເພື່ອເພີ່ມວີດີໂອໃໝ່</p>
+                      </div>
+                      <div
+                        v-for="(item_video, index) in loadingList ? [] : paginatedVideos"
                         :key="index"
                       >
                         <div v-if="tabItem === id">
@@ -823,7 +841,7 @@
                   <template #header>
                     <v-card-actions
                       style="
-                        color: rgb(255, 215, 0);
+                        color: #FFC400;
                         text-align: center;
                         padding: 2px;
                       "
@@ -862,7 +880,7 @@
                         <p v-else class="custom-font">
                           ຖ້າທ່ານເປິດວີດີໂອ,
                           ຂໍ້ມູນທັງໝົດຂອງວີດີໂອນີ້ຈະຖືກເປິດໃຫ້ຜູ້ໃຊ້ເຂົ້າເບີ່ງໄດ້.<span
-                            style="color: #ff3300"
+                            style="color: #DC2626"
                             >!</span
                           >. ທ່ານຕ້ອງການລົບວີດີໂອນີ້ ຫຼື ບໍ?
                         </p>
@@ -871,7 +889,7 @@
                         <p class="custom-font">
                           ຖ້າທ່ານລົບວີດີໂອ,
                           ຂໍ້ມູນທັງໝົດຂອງວີດີໂອນີ້ຈະຖືກລົບອອກຈາກຖານຂໍ້ມູນ<span
-                            style="color: #ff3300"
+                            style="color: #DC2626"
                             >!</span
                           >. ທ່ານຕ້ອງການລົບວີດີໂອນີ້ ຫຼື ບໍ?
                         </p>
@@ -884,7 +902,7 @@
                         v-if="isActiveVdo"
                         size="large"
                         long
-                        style="background-color: #ff3300; color: #ffff"
+                        style="background-color: #DC2626; color: #ffff"
                         @click="activeVideo(idVideo, 0)"
                       >
                         <v-icon color="#ffff">{{
@@ -911,7 +929,7 @@
                       v-else
                       size="large"
                       long
-                      style="background-color: #ff3300; color: #ffff"
+                      style="background-color: #DC2626; color: #ffff"
                       @click="deleteVideo(idVideo)"
                     >
                       <v-icon color="#ffff">mdi-delete-empty</v-icon>&nbsp;
@@ -959,7 +977,7 @@
         >
           <!-- <v-spacer></v-spacer> -->
           <v-btn icon small @click="select = false">
-            <v-icon size="28" style="color: rgb(255, 215, 0)"
+            <v-icon size="28" style="color: #FFC400"
               >mdi-chevron-double-left</v-icon
             >
           </v-btn>
@@ -987,6 +1005,7 @@ export default {
       tabItem: 0,
       NumberPage: 25,
       searchvideo: false,
+      loadingList: true,
       modal: false,
       select: false,
       dialogPage: -1,
@@ -1209,9 +1228,12 @@ export default {
         await this.handleSearch()
       } catch (error) {
         console.error('Error fetching video types:', error)
+        this.messageModal('error', 'ໂຫຼດປະເພດວີດີໂອບໍ່ສໍາເລັດ!')
+        this.loadingList = false
       }
     },
     async handleSearch() {
+      this.loadingList = true
       try {
         const response = await this.$axios.post(
           // `${this.$config.apiMainServiceUrl}/video/getAllVideoWithFileVideoFromType`,
@@ -1221,9 +1243,11 @@ export default {
           }
         )
         this.video = response.data.detail?.data || []
-        // console.log('video ::', this.video)
       } catch (error) {
         console.error('Error fetching videos by type:', error)
+        this.messageModal('error', 'ໂຫຼດຂໍ້ມູນວີດີໂອບໍ່ສໍາເລັດ!')
+      } finally {
+        this.loadingList = false
       }
     },
     truncatedName(value, num) {
@@ -1245,8 +1269,20 @@ export default {
 }
 </script>
 <style scoped>
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 16px;
+  color: #6b7280;
+  text-align: center;
+}
+.empty-state h3 {
+  color: #1f2937;
+}
 .custom-button {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
   border-radius: 4px;
   padding: 0px;
@@ -1269,7 +1305,7 @@ export default {
   outline: 2px solid rgb(179, 179, 0);
 }
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 .color-text {
   color: #ffff;
@@ -1320,10 +1356,10 @@ export default {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -1342,10 +1378,10 @@ export default {
   padding: 2px;
 }
 .color-grad-background {
-  background-color: rgb(248, 248, 248);
+  background-color: #F5F6F8;
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .filtered-name-card-triangle {

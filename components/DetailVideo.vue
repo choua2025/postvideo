@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-font" style="background-color: rgb(239, 239, 239)">
+  <div class="custom-font" style="background-color: #F5F6F8">
     <v-card-text class="px-4" style="padding: 12px">
       <br />
       <br />
@@ -63,7 +63,7 @@
                     <Icon
                       type="ios-videocam"
                       size="52"
-                      style="color: rgb(255, 215, 0)"
+                      style="color: #FFC400"
                     />
                     <p class="custom-font color-text-load">ໂຫຼດວີດີໂອ</p>
                   </div>
@@ -138,7 +138,7 @@
                     <Icon
                       type="md-images"
                       size="52"
-                      style="color: rgb(255, 215, 0)"
+                      style="color: #FFC400"
                     />
                     <p class="custom-font color-text-load">ໂຫຼດໜ້າປົດວີດີໂອ</p>
                   </div>
@@ -155,12 +155,24 @@
           width="100%"
           height="50"
           class="custom-font color-text custom-btn"
-          style="background-color: rgb(255, 215, 0)"
+          style="background-color: #FFC400"
+          :disabled="saving"
           @click="addVideoMovie"
         >
-          <!-- style="background-color: rgb(255, 215, 0); display: flex; position: fixed; bottom: 20px;" -->
-          <h2>ເພີ່ມ</h2>
+          <h2 v-if="!saving">ເພີ່ມ</h2>
+          <h3 v-else>
+            <v-progress-circular indeterminate size="20" width="2" class="mr-2" />
+            ກຳລັງອັບໂຫຼດ... {{ uploadProgress }}%
+          </h3>
         </v-btn>
+        <v-progress-linear
+          v-if="saving"
+          :value="uploadProgress"
+          color="primary"
+          height="6"
+          rounded
+          class="mt-2"
+        />
       </div>
       <br /> <br />
     </v-card-text>
@@ -173,6 +185,8 @@ export default {
     return {
       newForm: { image: null, video: null, resolution: 0 },
       resolution: [],
+      saving: false,
+      uploadProgress: 0,
     }
   },
   computed: {
@@ -246,6 +260,7 @@ export default {
       this.$store.commit('SET_FORM', updatedForm)
     },
     async addVideoMovie() {
+      if (this.saving) return
       const { image, video, resolution } = this.newForm
       if (!video || !image || !resolution) {
         this.messageModal('error')
@@ -264,20 +279,22 @@ export default {
         videoId: id || '',
       })
       formData.append('videoData', videoData)
+      this.saving = true
+      this.uploadProgress = 0
       try {
-        const response = await this.$axios.post(
-          // `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
-          // `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
-          // `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
+        await this.$axios.post(
           `${this.$config.apiVideoUrl}/addvideoqualityinfo`,
+          // `${this.$config.apiMainServiceUrl}/video/addvideoqualityinfo`,
           formData,
           {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
+            onUploadProgress: (e) => {
+              if (e.total) this.uploadProgress = Math.round((e.loaded * 100) / e.total)
+            },
           }
         )
-        console.log('Data response:', response)
         this.$store.commit('SET_STEP_ADD_VIDEO', 0)
         this.reSetValue()
         this.newForm = { image: null, video: null, resolution: 0 }
@@ -295,6 +312,8 @@ export default {
           }</span>`,
           duration: 0,
         })
+      } finally {
+        this.saving = false
       }
     },
     messageModal(type) {
@@ -331,7 +350,7 @@ export default {
 }
 .custom-link {
   border-radius: 14px;
-  background-color: rgb(242, 242, 242);
+  background-color: #F5F6F8;
 }
 .custom-font-global {
   font-family: 'Noto Sans Lao', sans-serif;
@@ -356,7 +375,7 @@ export default {
 }
 
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 
 .color-text {
@@ -368,22 +387,22 @@ export default {
 }
 
 .table-container ::-webkit-scrollbar-thumb {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 
 .table-container ::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -400,7 +419,7 @@ export default {
   padding: 2px;
 }
 .color-grad-background {
-  background-color: rgb(248, 248, 248);
+  background-color: #F5F6F8;
 }
 .custom-margin {
   margin-top: 8px;
@@ -409,7 +428,7 @@ export default {
   margin-right: 8px;
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .custom-btn {
@@ -418,8 +437,8 @@ export default {
   box-shadow: 0 0 0px 0px rgba(128, 102, 0, 0.5);
 }
 .close-btn:hover {
-  background-color: rgb(255, 215, 0);
-  color: #ed4014;
+  background-color: #FFC400;
+  color: #DC2626;
 }
 .custom-btn:hover {
   outline: 0px solid black;

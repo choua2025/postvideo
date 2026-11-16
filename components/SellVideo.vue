@@ -9,7 +9,7 @@
         <br />
         <br />
         <br />
-        <h2 style="color: #b3b3b3;">Not data</h2>
+        <h2 style="color: #E5E7EB;">Not data</h2>
       </div>
     <!--  <v-btn @click="fetchData">reset</v-btn>
       <v-card-text class="px-0 pt-2 pb-0">
@@ -162,8 +162,6 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log('view-video:', this.video)
-      console.log('view-type:', this.type)
     },
     rowClassName(row, index) {
       if (index % 2 === 0) {
@@ -246,7 +244,7 @@ export default {
   height: 100%;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgb(255, 215, 0) transparent;
+  scrollbar-color: #FFC400 transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -255,7 +253,7 @@ export default {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   border-radius: 4px;
 }
 

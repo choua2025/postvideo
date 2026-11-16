@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <div class="login-card">
-      <h2 class="login-title">Login</h2>
+      <h2 class="login-title custom-font">ເຂົ້າສູ່ລະບົບ</h2>
       <v-text-field
         label="ຊື່ຜູ້ໃຊ້ (ສະເພາະເອັດມິນ)"
         placeholder="ກະລຸນາປ້ອມຊື່"
@@ -33,29 +33,19 @@
       <div class="login-options">
         <v-checkbox
           v-model="rememberMe"
-          label="Remember Me"
-          class="login-checkbox"
+          label="ຈື່ຊື່ຜູ້ໃຊ້"
+          class="login-checkbox custom-font"
           dense
         ></v-checkbox>
-        <a
-          href="#"
-          class="forgot-password"
-          @click="messageModal('error', 'ຍັງບໍ່ໄດ້ໃຫ້ບໍລິການ.')"
-          >Forget Password</a
-        >
       </div>
       <v-btn
-        class="login-button rainbow-button login-card"
+        class="login-button rainbow-button login-card custom-font"
         large
+        :loading="loading"
+        :disabled="loading"
         @click="checkrequired"
-        >Log in</v-btn
+        >ເຂົ້າສູ່ລະບົບ</v-btn
       >
-      <p class="register-text" style="color: #4d4d00">
-        Don’t have an account?
-        <a href="#" @click="messageModal('error', 'ຍັງບໍ່ໄດ້ເປິດໃຫ້ສະໝັດ.')"
-          >Register</a
-        >
-      </p>
     </div>
   </div>
 </template>
@@ -63,9 +53,11 @@
 <script>
 export default {
   layout: 'default',
+  auth: 'guest',
   data() {
     return {
       rememberMe: false,
+      loading: false,
       showPassword: false,
       email: '',
       password: '',
@@ -81,11 +73,11 @@ export default {
     }
   },
   mounted() {
+    // remove password saved in plain text by older versions
+    localStorage.removeItem('password')
     const storedEmail = localStorage.getItem('email')
-    const storedPassword = localStorage.getItem('password')
-    if (storedEmail && storedPassword) {
+    if (storedEmail) {
       this.email = storedEmail
-      this.password = storedPassword
       this.rememberMe = true
     }
   },
@@ -94,6 +86,12 @@ export default {
       this.showPassword = !this.showPassword;
     },
     async checkrequired() {
+      if (!this.email || !this.password) {
+        this.errorMessage('ຂໍ້ມູນບໍ່ຄົບ', 'ກະລຸນາປ້ອນຊື່ຜູ້ໃຊ້ ແລະ ລະຫັດຜ່ານ.')
+        return
+      }
+      if (this.loading) return
+      this.loading = true
       try {
         const response = await this.$auth.loginWith('local', {
           data: {
@@ -102,13 +100,10 @@ export default {
           },
         })
         if (response.data) {
-          this.$store.commit('setToken', response.data)
           if (this.rememberMe) {
             localStorage.setItem('email', this.email)
-            localStorage.setItem('password', this.password)
           } else {
             localStorage.removeItem('email')
-            localStorage.removeItem('password')
           }
           this.$router.push('/')
         } else {
@@ -119,6 +114,8 @@ export default {
           'ບໍ່ພົບຜູ້ໃຊ້',
           'ກະລຸນາກວດເບິ່ງຊື່ ຫຼື ລະຫັດຜ່ານຂອງທ່ານ ແລະ ລອງໃໝ່ອີກຄັ້ງ.'
         )
+      } finally {
+        this.loading = false
       }
     },
     errorMessage(title, desc) {
@@ -198,17 +195,17 @@ export default {
     #ffd633,
     #ffd11a,
     #ffff66,
-    #ffff00,
+    #FFC400,
     #ffd633,
     #ffd11a,
     #ffff66,
-    #ffff00,
+    #FFC400,
     #ff704d,
     #ffd633,
     #ffd11a,
-    #ffff00,
+    #FFC400,
     #ffff66,
-    #ffff00
+    #FFC400
   );
   color: #fff;
   background-size: 200% 200%;

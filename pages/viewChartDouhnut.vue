@@ -12,7 +12,7 @@
             flat
             height="450px"
             class="rounded-0"
-            style="padding: 2px; background-color: #ffff00"
+            style="padding: 2px; background-color: #FFC400"
           >
             <Table
               height="446"
@@ -213,7 +213,6 @@ export default {
       }
     },
     createChart() {
-      console.log('data-T:', this.setData)
       const ctx = document.getElementById('nyViewDoughnut').getContext('2d')
       if (this.myChartBar) {
         this.myChartBar.destroy()
@@ -293,12 +292,12 @@ export default {
 }
 
 .table-container ::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   border-radius: 4px;
 }
 
 .table-container ::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 </style>

@@ -48,7 +48,6 @@ export default {
         const responses = await Promise.all(apiCalls)
         const [videocategory] = responses
         this.category = videocategory.data.detail
-        console.log(this.category)
       } catch (error) {
         console.error('Error fetching data:', error)
       }

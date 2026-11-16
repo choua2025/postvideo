@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-font" style="background-color: rgb(239, 239, 239)">
+  <div class="custom-font" style="background-color: #F5F6F8">
     <br />
     <br />
     <v-card-text v-if="e1 === 1" class="px-4 pb-0">
@@ -33,7 +33,7 @@
               outlined
               class="pa-2 custom-margin text-center"
               min-height="210px"
-              style="background-color: rgb(248, 248, 248)"
+              style="background-color: #F5F6F8"
             >
               <v-card-text class="pa-2">
                 <v-row>
@@ -145,7 +145,7 @@
               <v-btn
                 v-if="epOfSeries.length > 0"
                 class="custom-btn"
-                style="background-color: rgb(255, 215, 0); color: #ffff"
+                style="background-color: #FFC400; color: #ffff"
                 @click="nextStep(2, 0)"
               >
                 <v-icon size="18">mdi-plus</v-icon>ເພີ່ມ Ep
@@ -226,7 +226,7 @@
                         <Icon
                           type="md-images"
                           size="52"
-                          style="color: rgb(255, 215, 0)"
+                          style="color: #FFC400"
                         />
                         <p class="custom-font color-text-load">ໂຫຼດຮູບພາບ</p>
                       </div>
@@ -242,7 +242,7 @@
                   height="40"
                   text
                   class="custom-font color-text custom-btn"
-                  style="background-color: #ff0000"
+                  style="background-color: #DC2626"
                   @click="resetValue"
                 >
                   <h2>ຍົກເລີກ</h2>
@@ -251,7 +251,7 @@
                   height="40"
                   text
                   class="custom-font color-text custom-btn"
-                  style="background-color: rgb(255, 215, 0)"
+                  style="background-color: #FFC400"
                   @click="addEpOfSeries"
                 >
                   <h2>ເພີ່ມ</h2>
@@ -328,7 +328,7 @@
                             <Icon
                               type="ios-videocam"
                               size="52"
-                              style="color: rgb(255, 215, 0)"
+                              style="color: #FFC400"
                             />
                             <p class="custom-font color-text-load">
                               ໂຫຼດວີດີໂອ
@@ -409,7 +409,7 @@
                             <Icon
                               type="md-images"
                               size="52"
-                              style="color: rgb(255, 215, 0)"
+                              style="color: #FFC400"
                             />
                             <p class="custom-font color-text-load">
                               ໂຫຼດຮູບພາບ
@@ -428,7 +428,7 @@
                   height="40"
                   text
                   class="custom-font color-text custom-btn"
-                  style="background-color: #ff0000"
+                  style="background-color: #DC2626"
                   @click="resetValue"
                 >
                   <h2>ຍົກເລີກ</h2>
@@ -437,7 +437,7 @@
                   height="40"
                   text
                   class="custom-font color-text custom-btn"
-                  style="background-color: rgb(255, 215, 0)"
+                  style="background-color: #FFC400"
                   @click="addVideoSeries"
                 >
                   <h2>ເພີ່ມ</h2>
@@ -575,12 +575,6 @@ export default {
       this.$store.commit('SET_FORM', updatedForm)
     },
     async addVideoSeries() {
-      console.log(
-        'dataAdd - ser::',
-        this.newForm,
-        'ID-Ep.::',
-        this.epSVideoId.SVideoId
-      )
       const { image, video, resolution } = this.newForm
       if (!video || !image || !resolution) {
         this.messageModal('error')
@@ -610,7 +604,6 @@ export default {
             },
           }
         )
-        console.log('Data response:', response)
         this.messageModal('success')
         this.$store.commit('SET_STEP_ADD_VIDEO', 0)
         this.resetValue()
@@ -623,9 +616,7 @@ export default {
       }
     },
     async addEpOfSeries() {
-      console.log('DTA:', this.newForm)
       const { name, des, image } = this.newForm
-      console.log('data:', name, des, image)
       const id = this.form.id
       const formData = new FormData()
       if (image) {
@@ -648,7 +639,6 @@ export default {
             },
           }
         )
-        console.log('Data response Series:', response)
         this.messageModal('success')
         this.resetValue()
       } catch (error) {
@@ -699,7 +689,7 @@ export default {
 }
 .custom-link {
   border-radius: 14px;
-  background-color: rgb(242, 242, 242);
+  background-color: #F5F6F8;
 }
 .custom-font-global {
   font-family: 'Noto Sans Lao', sans-serif;
@@ -720,7 +710,7 @@ export default {
 }
 
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 
 .color-text {
@@ -732,22 +722,22 @@ export default {
 }
 
 .table-container ::-webkit-scrollbar-thumb {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 
 .table-container ::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -764,7 +754,7 @@ export default {
   padding: 2px;
 }
 .color-grad-background {
-  background-color: rgb(248, 248, 248);
+  background-color: #F5F6F8;
 }
 .custom-margin {
   margin-top: 8px;
@@ -773,7 +763,7 @@ export default {
   margin-right: 8px;
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .custom-btn {
@@ -786,7 +776,7 @@ export default {
   color: #ffff;
 }
 .update-btn:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .custom-btn:hover {

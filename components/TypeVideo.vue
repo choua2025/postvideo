@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-font" style="background-color: rgb(239, 239, 239)">
+  <div class="custom-font" style="background-color: #F5F6F8">
     <v-card-text
       class="px-8 py-6 table-container"
       style="height: 100vh; overflow-y: auto"
@@ -45,7 +45,7 @@
         width="100%"
         height="48"
         class="custom-font color-text"
-        style="background-color: rgb(255, 215, 0)"
+        style="background-color: #FFC400"
         :outlined="!isHovered"
         @mouseover="isHovered = true"
         @mouseleave="isHovered = false"
@@ -71,7 +71,7 @@ export default {
 </script>
 <style scoped>
 .custom-icon:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 .custom-menu {
@@ -112,7 +112,7 @@ export default {
 }
 
 .BK-color {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
 }
 
 .color-text {
@@ -124,22 +124,22 @@ export default {
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 
 .table-container::-webkit-scrollbar-corner {
-  background-color: #ffff00;
+  background-color: #FFC400;
   border-radius: 4px;
 }
 .color-hover {
   color: none;
 }
 .color-hover:hover {
-  color: rgb(255, 215, 0);
+  color: #FFC400;
 }
 .color-red {
-  color: #ed4014;
+  color: #DC2626;
 }
 .color-grad {
   background-color: rgb(255, 255, 240);
@@ -154,7 +154,7 @@ export default {
   color: rgb(77, 77, 77);
 }
 .mouse-hover-menu:hover {
-  background-color: rgb(255, 215, 0);
+  background-color: #FFC400;
   color: #ffff;
 }
 </style>

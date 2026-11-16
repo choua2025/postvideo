@@ -278,15 +278,23 @@ export default {
           }
         )
         console.log('Data response:', response)
-        this.messageModal('success')
         this.$store.commit('SET_STEP_ADD_VIDEO', 0)
-        this.resetValue()
+        this.reSetValue()
         this.newForm = { image: null, video: null, resolution: 0 }
+        // back to post list + show message (handled in pages/post.vue)
+        this.$nuxt.$emit('video-added', 'ເພີ່ມວີດີໂອສຳເລັດແລ້ວ')
       } catch (error) {
         console.error(
-          'Error fetching data:',
+          'Error addvideoqualityinfo:',
           error.response ? error.response.data : error.message
         )
+        this.$Notice.error({
+          title: `<span class="custom-font">ເພີ່ມວີດີໂອບໍ່ສໍາເລັດ</span>`,
+          desc: `<span class="custom-font">${
+            error.response?.data?.resultDesc || error.message
+          }</span>`,
+          duration: 0,
+        })
       }
     },
     messageModal(type) {

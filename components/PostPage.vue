@@ -698,7 +698,9 @@ export default {
         // console.log('valueE:', typeof(this.dataVideo.image));
         this.typeofID = type;
         this.deleteFrom();
-        this.messageModal('success');
+        this.imageview = []
+        // back to post list + show message (handled in pages/post.vue)
+        this.$nuxt.$emit('video-added', 'ເພີ່ມຂໍ້ມູນວີດີໂອສຳເລັດແລ້ວ')
       } catch (error) {
         const errData = error.response ? error.response.data : error.message
         console.error('Error addvideo:', errData)

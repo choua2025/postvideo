@@ -496,7 +496,7 @@
                     class="custom-font"
                   >
                     <div
-                      v-if="tabItem === 3"
+                      v-if="tabItem === filteredType.length"
                       class="py-2 table-container-post scrollbar"
                       style="height: 580px; overflow-y: auto"
                     >
@@ -527,13 +527,13 @@
                                       price: item.price,
                                       type: item.typeId,
                                       bkimage: item.bgImg,
-                                      isActive:item_video.isActive,
+                                      isActive:item.isActive,
                                       video:
                                         item.videoQualityinfodata ||
                                         item.videoSeriesData,
                                       time: item.time,
                                       resolution: item.resolution,
-                                      categoryName: item_video.videoCategoryData
+                                      categoryName: item.videoCategoryData
                                         ? item.videoCategoryData
                                             .map(
                                               (q) =>
@@ -621,14 +621,14 @@
                                           price: item.price,
                                           type: item.typeId,
                                           bkimage: item.bgImg,
-                                          isActive:item_video.isActive,
+                                          isActive:item.isActive,
                                           video:
                                             item.videoQualityinfodata ||
                                             item.videoSeriesData,
                                           time: item.time,
                                           resolution: item.resolution,
                                           categoryName:
-                                            item_video.videoCategoryData
+                                            item.videoCategoryData
                                               ? item.videoCategoryData
                                                   .map(
                                                     (q) =>
@@ -658,14 +658,14 @@
                                           price: item.price,
                                           type: item.typeId,
                                           bkimage: item.bgImg,
-                                          isActive:item_video.isActive,
+                                          isActive:item.isActive,
                                           video:
                                             item.videoQualityinfodata ||
                                             item.videoSeriesData,
                                           time: item.time,
                                           resolution: item.resolution,
                                           categoryName:
-                                            item_video.videoCategoryData
+                                            item.videoCategoryData
                                               ? item.videoCategoryData
                                                   .map(
                                                     (q) =>
@@ -762,7 +762,7 @@
                                               price: item.price,
                                               type: item.typeId,
                                               bkimage: item.bgImg,
-                                              isActive:item_video.isActive,
+                                              isActive:item.isActive,
                                               video:
                                                 item.videoQualityinfodata ||
                                                 item.videoSeriesData,
@@ -779,12 +779,12 @@
                                           >
                                             <v-card-actions class="pa-0">
                                               <v-icon>{{
-                                                item_video.isActive
+                                                item.isActive
                                                   ? item_menu.icon
                                                   : item_menu.icon1
                                               }}</v-icon
                                               >&nbsp;&nbsp;{{
-                                                item_video.isActive
+                                                item.isActive
                                                   ? item_menu.title
                                                   : item_menu.title1
                                               }}
@@ -1044,8 +1044,17 @@ export default {
   },
   mounted() {
     this.filterMoviesByType()
+    this.$nuxt.$on('video-added', this.onVideoAdded)
+  },
+  beforeDestroy() {
+    this.$nuxt.$off('video-added', this.onVideoAdded)
   },
   methods: {
+    onVideoAdded(message) {
+      // close drawer, reset state and reload the video list
+      this.closePost()
+      this.messageModal('success', message)
+    },
     getFilteredName(typeId) {
       const match = this.filteredType.find((type) => type.typeId === typeId)
       return match ? match.name : 'Unknown'
